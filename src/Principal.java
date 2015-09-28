@@ -24,7 +24,7 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Veiculo v2 = new Veiculo();
 		v2.setPlaca("KZM-0000");
 		v2.setModelo("Astra");
-		v2.setAno(2000);
+		v2.setAno(2011);
 		v2.setCor("prata");
 		v2.setDataFabricacao(sdf.parse("15/03/2000"));
 		
@@ -38,8 +38,8 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Veiculo v4 = new Veiculo();
 		v4.setPlaca("KZM-0002");
 		v4.setModelo("Hilux");
-		v4.setAno(2010);
-		v4.setCor("Cinza");
+		v4.setAno(2011);
+		v4.setCor("prata");
 		v4.setDataFabricacao(sdf.parse("15/03/2010"));
 		
 		Veiculo v5 = new Veiculo();
@@ -163,22 +163,23 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		con.persistirObjeto(r3);
 		con.persistirObjeto(r4);
 
-		//Todos os veiculos
-		Query query = con.getEm().createQuery("SELECT e FROM Veiculo e");
+		//Todos os veiculos ASTRA
+		Query query = con.getEm().createQuery("SELECT e FROM Veiculo e "
+												+ "WHERE e.ano = '2011' and e.cor='prata'");
 		List<Veiculo> todosVeiculos = (List<Veiculo>)query.getResultList();
 		
-		/*
+		
 		//Todos os revendedores de astra
 		query = con.getEm().createQuery(	"SELECT r FROM Revendedor r "
-											+ "JOIN r.veiculo v "
+											+ "JOIN r.veiculos v "
 											+ "WHERE v.modelo = 'Astra'");
 		List<Revendedor> todosRevendedoresAstra = (List<Revendedor>)query.getResultList();
-		*/
 		
-		/*//Todos os veiculos com troca de ar condicionado
-		query = con.getEm().createQuery(	"FROM Veiculo v "
-											+ "JOIN v.manutencao m "
-											+ "WHERE m.descricao LIKE 'troca do ar-condicionado%' ");*/
+		
+		//Todos os veiculos com troca de ar condicionado
+		query = con.getEm().createQuery(	"SELECT v FROM Veiculo v "
+											+ "JOIN v.manutencoes m "
+											+ "WHERE m.descricao LIKE 'troca do ar-condicionado%' ");
 		
 		List<Veiculo> veiculoArCondicionado = (List<Veiculo>)query.getResultList();
 		
@@ -186,7 +187,9 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		System.out.println();
 		System.out.println("------------------------");
-		System.out.println("Todos os veiculos");
+		System.out.println("Todos os veiculos 2011 de cor prata");
+		System.out.println("------------------------");
+
 		for(Veiculo veiculo: todosVeiculos){
 			System.out.println(veiculo.getAno());
 			System.out.println(veiculo.getCor());
@@ -196,26 +199,33 @@ SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			System.out.println();
 		}
 		
-		/*System.out.println();
+		System.out.println();
 		System.out.println("------------------------");
 		System.out.println("Todos os Revendedores de Astra");
+		System.out.println("------------------------");
+
 		for(Revendedor revend: todosRevendedoresAstra){
 			System.out.println(revend.getNome());
 			System.out.println(revend.getTelefone());
 			System.out.println(revend.getEndereco());
-		}*/
+			System.out.println();
+		}
 		
 		
-		/*System.out.println();
+		System.out.println();
 		System.out.println("------------------------");
 		System.out.println("Todos os veiculos com manutencao de ar condicionado");
+		System.out.println("------------------------");
+
 		for(Veiculo veiculo: veiculoArCondicionado){
 			System.out.println(veiculo.getAno());
 			System.out.println(veiculo.getCor());
 			System.out.println(veiculo.getModelo());
 			System.out.println(veiculo.getDataFabricacao());
 			System.out.println(veiculo.getPlaca());
-		}*/
+			System.out.println();
+
+		}
 		
 		
 	}
